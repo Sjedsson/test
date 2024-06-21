@@ -1,33 +1,20 @@
+ **Acceptance Kriterierna:**
 
-Användarhistorier och Acceptanskriterier
+1. **Boka Banor**
+   - Formulärfält: Formuläret tillåter användare att ange datum, tid, antal banor och antal spelare.
+   - Inlämning: Formuläret skickar bokningsuppgifter och förväntar sig ett svar som innehåller bokningsinformation.
 
-1. Boka Banor
-   - Användarhistoria: Som användare vill jag kunna boka datum och tid samt ange antal spelare så att jag kan reservera en eller flera banor.
-   - Acceptanskriterier:
-     - Bokningsformuläret tillåter val av datum och tid.
-     - Bokningsformuläret tillåter inmatning av antal spelare.
-     - Bokningsformuläret kan skicka bokningen om alla fält är korrekt ifyllda.
+2. **Hantera Skostorlekar**
+   - Lägg till Skostorlek: Användare kan lägga till skostorlekar för varje spelare. Varje tillagt skostorleksfält måste vara unikt.
+   - Ta bort Skostorlek: Användare kan ta bort skostorleksfält.
 
-2. Välja Skostorlekar
-   - Användarhistoria: Som användare vill jag kunna välja skostorlek för varje spelare så att varje spelare får skor som passar.
-   - Acceptanskriterier:
-     - Ett fält för att välja skostorlekar för varje spelare finns.
-     - Skostorleksfältet är obligatoriskt för varje spelare.
+3. **Visa Bokningsbekräftelse**
+   - Bokningsdetaljer: Bekräftelsekomponenten visar bokningsdetaljer inklusive datum, tid, antal spelare, banor, boknings-ID och pris.
+   - Aktivt/Inaktivt Tillstånd: Om ingen bokning är aktiv visas meddelandet "inga bokning gjord!".
 
-3. Ta bort Skostorleksfält
-   - Användarhistoria: Som användare vill jag kunna ta bort ett skostorleksfält om jag råkade lägga till ett för mycket så att jag inte bokar skor i onödan.
-   - Acceptanskriterier:
-     - Varje skostorleksfält har en borttagningsknapp.
-     - Att klicka på borttagningsknappen tar bort motsvarande skostorleksfält.
+4. **Navigering**
+   - Toggle Navigeringsmeny: Klick på menyk ikonen växlar synligheten av bokningslänken.
+   - Navigera till Bokningsvy: Klick på bokningslänken anropar `setConfirmation` och navigerar tillbaka till bokningsvyn.
 
-4. Skicka Bokning
-   - Användarhistoria: Som användare vill jag kunna skicka min bokning och få ett bokningsnummer och totalbelopp så att jag vet hur mycket jag ska betala (120 kr/person + 100 kr/bana).
-   - Acceptanskriterier:
-     - Bokningsskickningen returnerar ett bokningsnummer.
-     - Bokningsskickningen returnerar det totala beloppet som ska betalas.
-
-5. Navigera Tillbaka Till Bokningsvy
-   - Användarhistoria: Som användare vill jag kunna navigera tillbaka till bokningsvyn efter bekräftelse.
-   - Acceptanskriterier:
-     - En tillbaka-knapp finns på bekräftelsesidan.
-     - Att klicka på tillbaka-knappen navigerar tillbaka till bokningsvyn.
+5. **Skicka Bokning**
+   - POST Begäran: En POST-begäran till boknings-API:t med nödvändiga headers och bokningsdetaljer returnerar en bekräftelse med bokningsnummer och totalbelopp.
