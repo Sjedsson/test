@@ -6,7 +6,7 @@ describe("Confirmation Component", () => {
   const mockSetConfirmation = vi.fn();
   const confirmationDetails = {
     active: true,
-    when: "2024-06-12T18:00",
+    when: "2024-06-22T18:00",
     people: 4,
     lanes: 1,
     id: "ABC123",
