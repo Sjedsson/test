@@ -1,4 +1,4 @@
- **Acceptance Kriterierna:**
+ **User Stories och Acceptance Kriterierna:**
 
 1. **Boka Banor**
    - Formulärfält: Formuläret tillåter användare att ange datum, tid, antal banor och antal spelare.
