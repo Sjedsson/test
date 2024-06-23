@@ -12,7 +12,7 @@ const bookingDetailsMock = {
 
 export const handlers = [
   mockHttp.post(
-    "https://h5jbtjv6if.execute-api.eu-north-1.amazonaws.com",
+    "https://h5jbtjv6if.execute-api.eu-north-1.amazonaws.com/",
     (req) => {
       console.log("Mock API called with:", req.body);
       return MockHttpResponse.json(bookingDetailsMock, { status: 201 });
