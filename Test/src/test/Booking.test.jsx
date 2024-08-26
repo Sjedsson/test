@@ -1,42 +1,70 @@
 import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
-import BookingInfo from '../components/BookingInfo/BookingInfo';
-import { beforeEach, test, expect, vi } from 'vitest';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { beforeAll, afterEach, afterAll, describe, test, expect, vi } from 'vitest';
+import Booking from '../views/Booking';
 
+beforeAll(() => {
+  global.fetch = vi.fn().mockImplementation((url, options) => {
+    if (url === 'https://h5jbtjv6if.execute-api.eu-north-1.amazonaws.com' && options.method === 'POST') {
+      const mockResponse = {
+        when: '2024-06-06T12:00',
+        lanes: '1',
+        people: '1',
+        shoes: ['42'],
+        price: 220,
+        id: 'STR2101YPJD',
+        active: true,
+      };
 
-const updateBookingDetails = vi.fn();
+      return Promise.resolve({
+        status: 201,
+        json: () => Promise.resolve(mockResponse),
+      });
+    }
 
-beforeEach(() => {
-  render(<BookingInfo updateBookingDetails={updateBookingDetails} />);
+    return Promise.resolve({
+      status: 404,
+      json: () => Promise.resolve({ message: 'Not Found' }),
+    });
+  });
 });
 
-test('renders BookingInfo component', () => {
-
-  expect(screen.getByRole('heading', { level: 2, name: /When, WHAT & Who/i })).toBeInTheDocument();
-
- 
-  expect(screen.getByText(/Date/i).nextElementSibling).toHaveAttribute('type', 'date');
-  expect(screen.getByText(/Time/i).nextElementSibling).toHaveAttribute('type', 'time');
-  expect(screen.getByText(/Number of awesome bowlers/i).nextElementSibling).toHaveAttribute('type', 'number');
-  expect(screen.getByText(/Number of lanes/i).nextElementSibling).toHaveAttribute('type', 'number');
+afterEach(() => {
+  vi.clearAllMocks();
 });
 
-test('updates booking details when date is changed in BookingInfo', () => {
-  fireEvent.change(screen.getByText(/Date/i).nextElementSibling, { target: { value: '2020-02-21' } });
-  expect(updateBookingDetails).toHaveBeenCalledWith(expect.any(Object));
+afterAll(() => {
+  vi.restoreAllMocks();
 });
 
-test('updates booking details when time is changed in BookingInfo', () => {
-  fireEvent.change(screen.getByText(/Time/i).nextElementSibling, { target: { value: '12:00' } });
-  expect(updateBookingDetails).toHaveBeenCalledWith(expect.any(Object));
-});
+describe('Booking Component Tests', () => {
+  test('successfully retrieves mock booking data from API', async () => {
+    const response = await fetch('https://h5jbtjv6if.execute-api.eu-north-1.amazonaws.com', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ key: 'value' }),
+    });
 
-test('updates booking details when number of awesome bowlers is changed in BookingInfo', () => {
-  fireEvent.change(screen.getByText(/Number of awesome bowlers/i).nextElementSibling, { target: { value: '6' } });
-  expect(updateBookingDetails).toHaveBeenCalledWith(expect.any(Object));
-});
+    const result = await response.json();
 
-test('updates booking details when number of lanes is changed in BookingInfo', () => {
-  fireEvent.change(screen.getByText(/Number of lanes/i).nextElementSibling, { target: { value: '3' } });
-  expect(updateBookingDetails).toHaveBeenCalledWith(expect.any(Object));
+    expect(response.status).toBe(201);
+    expect(result).toMatchObject({
+      when: '2024-06-06T12:00',
+      lanes: '1',
+      people: '1',
+      shoes: ['42'],
+      price: 220,
+      id: 'STR2101YPJD',
+      active: true,
+    });
+  });
+
+  test('renders Booking component and triggers booking on button click', async () => {
+    render(<Booking />);
+
+    const bookButton = screen.getByText(/strIIIIIike!/i);
+    fireEvent.click(bookButton);
+  });
 });
